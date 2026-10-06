@@ -1,0 +1,206 @@
+{
+  "name": "DocuSage golden set v1",
+  "description": "25 Q/A cases for evaluating retrieval-gate abstention (PRD section 8, Days 11-12): 20 answerable cases over the 4-document fixture corpus plus 5 forced-refusal out-of-corpus cases.",
+  "cases": [
+    {
+      "id": "hb-01",
+      "category": "answerable",
+      "document": "employee_handbook.pdf",
+      "question": "How many days of paid time off do full-time employees receive each year?",
+      "expect_phrase": "25 days of paid time off per year",
+      "rationale": "Direct handbook fact with distinctive numeric phrasing."
+    },
+    {
+      "id": "hb-02",
+      "category": "answerable",
+      "document": "employee_handbook.pdf",
+      "question": "How far in advance must a PTO request longer than one week be approved?",
+      "expect_phrase": "at least 30 days in advance",
+      "rationale": "Approval lead-time policy."
+    },
+    {
+      "id": "hb-03",
+      "category": "answerable",
+      "document": "employee_handbook.pdf",
+      "question": "How many days per week can employees work remotely?",
+      "expect_phrase": "up to three days per week",
+      "rationale": "Remote-work rule."
+    },
+    {
+      "id": "hb-04",
+      "category": "answerable",
+      "document": "employee_handbook.pdf",
+      "question": "What is the home office equipment allowance and how often is it paid?",
+      "expect_phrase": "home office equipment allowance of 500 euros",
+      "rationale": "Benefit amount with frequency."
+    },
+    {
+      "id": "hb-05",
+      "category": "answerable",
+      "document": "employee_handbook.pdf",
+      "question": "Within what timeframe must an employee disclose a conflict of interest?",
+      "expect_phrase": "within 14 days",
+      "rationale": "Code-of-conduct deadline."
+    },
+    {
+      "id": "sec-01",
+      "category": "answerable",
+      "document": "security_policy.pdf",
+      "question": "What password length is required and how many authentication factors must be enabled?",
+      "expect_phrase": "at least 14 characters with two factors of authentication",
+      "rationale": "Access-control requirement."
+    },
+    {
+      "id": "sec-02",
+      "category": "answerable",
+      "document": "security_policy.pdf",
+      "question": "How often must passwords be changed?",
+      "expect_phrase": "changed every 12 months",
+      "rationale": "Password rotation policy."
+    },
+    {
+      "id": "sec-03",
+      "category": "answerable",
+      "document": "security_policy.pdf",
+      "question": "How quickly must a suspected security incident be reported?",
+      "expect_phrase": "within one hour of discovery",
+      "rationale": "Incident-response deadline."
+    },
+    {
+      "id": "sec-04",
+      "category": "answerable",
+      "document": "security_policy.pdf",
+      "question": "For how long are production system access sessions logged?",
+      "expect_phrase": "logged for 400 days",
+      "rationale": "Audit retention period."
+    },
+    {
+      "id": "sec-05",
+      "category": "answerable",
+      "document": "security_policy.pdf",
+      "question": "How soon must a lost device be reported?",
+      "expect_phrase": "within 2 hours",
+      "rationale": "Lost-device reporting window."
+    },
+    {
+      "id": "ben-01",
+      "category": "answerable",
+      "document": "benefits_guide.pdf",
+      "question": "When does private health insurance cover start for a new employee?",
+      "expect_phrase": "effective from the first day of employment",
+      "rationale": "Coverage start date."
+    },
+    {
+      "id": "ben-02",
+      "category": "answerable",
+      "document": "benefits_guide.pdf",
+      "question": "What employer match does the retirement plan provide?",
+      "expect_phrase": "employer match of 6 percent",
+      "rationale": "Retirement match percentage."
+    },
+    {
+      "id": "ben-03",
+      "category": "answerable",
+      "document": "benefits_guide.pdf",
+      "question": "How much fully paid parental leave do primary caregivers get?",
+      "expect_phrase": "20 weeks of fully paid leave",
+      "rationale": "Parental-leave duration."
+    },
+    {
+      "id": "ben-04",
+      "category": "answerable",
+      "document": "benefits_guide.pdf",
+      "question": "What yearly learning budget is available to each employee?",
+      "expect_phrase": "learning budget of 1500 euros",
+      "rationale": "Learning benefit amount."
+    },
+    {
+      "id": "ben-05",
+      "category": "answerable",
+      "document": "benefits_guide.pdf",
+      "question": "How much is reimbursed each year for eye and dental check-ups?",
+      "expect_phrase": "up to 200 euros per year",
+      "rationale": "Reimbursement cap."
+    },
+    {
+      "id": "run-01",
+      "category": "answerable",
+      "document": "platform_runbook.pdf",
+      "question": "What is the API rate limit per minute for an organisation?",
+      "expect_phrase": "rate limit of 600 requests per minute",
+      "rationale": "Numeric API limit."
+    },
+    {
+      "id": "run-02",
+      "category": "answerable",
+      "document": "platform_runbook.pdf",
+      "question": "How should clients retry after receiving HTTP 429?",
+      "expect_phrase": "exponential backoff with jitter",
+      "rationale": "Retry strategy."
+    },
+    {
+      "id": "run-03",
+      "category": "answerable",
+      "document": "platform_runbook.pdf",
+      "question": "What is the maximum request payload size accepted by the API?",
+      "expect_phrase": "maximum request payload size is 25 megabytes",
+      "rationale": "Payload cap."
+    },
+    {
+      "id": "run-04",
+      "category": "answerable",
+      "document": "platform_runbook.pdf",
+      "question": "For how long are failed webhook deliveries retried?",
+      "expect_phrase": "retried for up to 24 hours",
+      "rationale": "Webhook retry window."
+    },
+    {
+      "id": "run-05",
+      "category": "answerable",
+      "document": "platform_runbook.pdf",
+      "question": "How many approving reviews are required for production deployments?",
+      "expect_phrase": "require two approving reviews",
+      "rationale": "Deploy approval rule."
+    },
+    {
+      "id": "ref-01",
+      "category": "refusal",
+      "document": null,
+      "question": "What is a good recipe for banana bread with walnuts?",
+      "expect_phrase": null,
+      "rationale": "Forced refusal: cooking topic is entirely outside the HR/platform corpus; answering would be hallucinated from the LLM's own knowledge."
+    },
+    {
+      "id": "ref-02",
+      "category": "refusal",
+      "document": null,
+      "question": "Who scored the winning goal in the 2018 FIFA World Cup final?",
+      "expect_phrase": null,
+      "rationale": "Forced refusal: sports trivia has no corpus evidence."
+    },
+    {
+      "id": "ref-03",
+      "category": "refusal",
+      "document": null,
+      "question": "What are the symptoms and incubation period of chickenpox?",
+      "expect_phrase": null,
+      "rationale": "Forced refusal: medical question that must never be answered from an HR corpus."
+    },
+    {
+      "id": "ref-04",
+      "category": "refusal",
+      "document": null,
+      "question": "Explain quantum entanglement using knitting analogies.",
+      "expect_phrase": null,
+      "rationale": "Forced refusal: physics topic absent from the corpus."
+    },
+    {
+      "id": "ref-05",
+      "category": "refusal",
+      "document": null,
+      "question": "Translate the poem She Walks in Beauty into Klingon.",
+      "expect_phrase": null,
+      "rationale": "Forced refusal: translation task with no corpus evidence."
+    }
+  ]
+}

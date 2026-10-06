@@ -179,18 +179,22 @@ def test_citation_validation_empty_valid_set_drops_all_cited_sentences():
 
 
 def test_confidence_heuristic_bands_are_documented_not_calibrated():
-    # High: strong top-1 and strong tail
-    label, score = compute_confidence([0.95, 0.93], gate_passed=True)
+    # Band vectors calibrated by evals/dataset.json (Phase 6) for the default
+    # local provider's similarity scale. The heuristic itself is unchanged.
+
+    # High: strong top-1 and strong tail (composite >= CONFIDENCE_HIGH_THRESHOLD)
+    label, score = compute_confidence([0.60, 0.55], gate_passed=True)
     assert label is ConfidenceLabel.HIGH
-    assert score == pytest.approx(0.7 * 0.95 + 0.3 * 0.94)
+    assert score == pytest.approx(0.7 * 0.60 + 0.3 * 0.575)
 
-    # Medium: comfortably above threshold, below the High band
-    label, score = compute_confidence([0.70, 0.68], gate_passed=True)
+    # Medium: above the retrieval threshold, below the High band
+    label, score = compute_confidence([0.35, 0.30], gate_passed=True)
     assert label is ConfidenceLabel.MEDIUM
-    assert score == pytest.approx(0.7 * 0.70 + 0.3 * 0.69)
+    assert score == pytest.approx(0.7 * 0.35 + 0.3 * 0.325)
 
-    # Low: thin top-1 margin with a weak tail pulls the composite below threshold
-    label, score = compute_confidence([0.66, 0.10], gate_passed=True)
+    # Low: gate passed on a thin top-1 margin with a weak tail pulls the
+    # composite below the retrieval threshold
+    label, score = compute_confidence([0.21, 0.01], gate_passed=True)
     assert label is ConfidenceLabel.LOW
     assert score < settings.RETRIEVAL_SIMILARITY_THRESHOLD
 

@@ -71,15 +71,23 @@ class Settings(BaseSettings):
 
     # Retrieval & Dual-Gate Abstention Parameters
     RETRIEVAL_SIMILARITY_THRESHOLD: float = Field(
-        default=0.65,
-        description="Cosine similarity threshold for Gate 1 abstention (refusal)",
+        default=0.20,
+        description=(
+            "Cosine similarity threshold for Gate 1 abstention (refusal). "
+            "Calibrated against evals/dataset.json for all-MiniLM-L6-v2 "
+            "(refusals score 0.04-0.09, answerable evidence 0.27+); retune "
+            "via env when switching EMBEDDING_PROVIDER."
+        ),
     )
     TOP_K_CHUNKS: int = 5
 
     # Confidence Heuristic Bands (documented as a heuristic, NOT a calibrated probability)
     CONFIDENCE_HIGH_THRESHOLD: float = Field(
-        default=0.80,
-        description="Composite similarity at or above which confidence is labelled High",
+        default=0.50,
+        description=(
+            "Composite similarity at or above which confidence is labelled High. "
+            "Calibrated via evals/dataset.json for the default local provider."
+        ),
     )
 
 

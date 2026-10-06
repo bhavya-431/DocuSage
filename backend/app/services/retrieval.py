@@ -59,6 +59,38 @@ class RetrievalResult:
         return [chunk.similarity for chunk in self.chunks]
 
 
+def evaluate_gate(
+    similarities: list[float], threshold: float
+) -> tuple[bool, str | None]:
+    """Evaluate Gate 1 (the retrieval gate) over similarity scores.
+
+    Shared by the production retrieval path and the eval harness, so the
+    golden set measures the exact gate that runs in production. No LLM is
+    ever involved — that is the point of the gate.
+
+    Args:
+        similarities: top-k similarity scores, top-1 first (descending).
+        threshold: minimum top-1 similarity required to answer.
+
+    Returns:
+        (gate_passed, refusal_reason) — reason explains WHY evidence was
+        insufficient when the gate refuses.
+    """
+    if not similarities:
+        return False, (
+            "no passages in your documents are related to this question, "
+            "so there is no evidence to answer from"
+        )
+    top_similarity = similarities[0]
+    if top_similarity < threshold:
+        return False, (
+            f"the most relevant passage scored {top_similarity:.2f} similarity, "
+            f"below the required threshold of {threshold:.2f}, "
+            "so the available evidence is too weak to support a reliable answer"
+        )
+    return True, None
+
+
 class RetrievalService:
     """Embeds the query and performs user-scoped vector search with an explicit Gate 1.
 
@@ -118,24 +150,9 @@ class RetrievalService:
         )
 
         # ---- Gate 1: retrieval gate (explicit, no LLM involved) ----
-        top_similarity = chunks[0].similarity if chunks else None
-
-        if not chunks:
-            gate_passed = False
-            refusal_reason = (
-                "no passages in your documents are related to this question, "
-                "so there is no evidence to answer from"
-            )
-        elif top_similarity < self.threshold:
-            gate_passed = False
-            refusal_reason = (
-                f"the most relevant passage scored {top_similarity:.2f} similarity, "
-                f"below the required threshold of {self.threshold:.2f}, "
-                "so the available evidence is too weak to support a reliable answer"
-            )
-        else:
-            gate_passed = True
-            refusal_reason = None
+        gate_passed, refusal_reason = evaluate_gate(
+            [chunk.similarity for chunk in chunks], self.threshold
+        )
 
         return RetrievalResult(
             query=query,

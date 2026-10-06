@@ -205,7 +205,7 @@ async def test_ask_rejects_document_ids_not_owned_by_user():
 async def test_ask_gate1_refusal_streams_done_without_llm_call():
     user = make_user()
     chat_session = make_session(user.id)
-    low_row = (make_chunk_row(user.id), 0.40)
+    low_row = (make_chunk_row(user.id), 0.08)  # below the 0.20 threshold
 
     llm, prompts = llm_mock(["should never stream"])
 
@@ -252,7 +252,7 @@ async def test_ask_gate1_refusal_streams_done_without_llm_call():
     assert message["confidence_label"] == "Refused"
     assert message["confidence_score"] == 0.0
     assert "I don't know" in message["answer"]
-    assert "0.40" in message["answer"]
+    assert "0.08" in message["answer"]
 
     # The LLM was never invoked
     llm.stream_response.assert_not_called()

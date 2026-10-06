@@ -21,7 +21,9 @@ def test_settings_load_and_defaults():
     settings = Settings()
     assert settings.APP_NAME == "DocuSage: Enterprise Document Intelligence Agent"
     assert settings.EMBEDDING_PROVIDER in ["local", "gemini"]
-    assert settings.RETRIEVAL_SIMILARITY_THRESHOLD == 0.65
+    # Calibrated by evals/dataset.json (Phase 6): refusals score 0.04-0.09,
+    # answerable evidence 0.27+ for the default local provider.
+    assert settings.RETRIEVAL_SIMILARITY_THRESHOLD == 0.20
     assert settings.MAX_DOCS_PER_USER == 20
     assert settings.MAX_FILE_SIZE_MB == 25
     assert settings.MAX_PAGES_PER_DOC == 150

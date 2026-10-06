@@ -19,7 +19,7 @@ from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.deps import get_current_user, get_db
@@ -76,6 +76,16 @@ class MessageResponse(BaseModel):
 class AskRequest(BaseModel):
     question: str = Field(min_length=1, max_length=2000)
     document_ids: list[uuid.UUID] | None = None
+
+    @field_validator("question")
+    @classmethod
+    def question_must_not_be_blank(cls, value: str) -> str:
+        """Error polish: a whitespace-only question is a clear 422, not an
+        empty retrieval against the user's documents."""
+        stripped = value.strip()
+        if not stripped:
+            raise ValueError("Question must not be blank.")
+        return stripped
 
 
 def _sse(payload: dict) -> str:
