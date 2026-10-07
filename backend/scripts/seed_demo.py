@@ -122,8 +122,7 @@ async def _amain() -> None:
             await conn.run_sync(Base.metadata.create_all)
     except Exception as exc:
         raise SystemExit(
-            f"Cannot reach PostgreSQL at the configured DATABASE_URL: {exc}\n"
-            "Start the local DB first: docker compose up -d"
+            f"Cannot reach PostgreSQL at the configured DATABASE_URL: {exc}"
         ) from exc
 
     async with async_session_factory() as session:

@@ -18,3 +18,5 @@ dist/
 .vscode/
 .idea/
 .DS_Store
+
+backend/.venv312/
