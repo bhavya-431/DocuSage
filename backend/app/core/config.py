@@ -19,6 +19,19 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     LOG_LEVEL: str = "INFO"
 
+    # CORS
+    # Comma-separated allowlist of browser origins. Defaults cover the deployed
+    # Vercel frontend plus localhost Vite dev/preview servers. Override via env:
+    # CORS_ORIGINS=https://my-app.vercel.app,http://localhost:5173
+    CORS_ORIGINS: str = Field(
+        default=(
+            "https://docu-sage-git-master-bhavya-431s-projects.vercel.app,"
+            "http://localhost:5173,http://127.0.0.1:5173,"
+            "http://localhost:4173,http://127.0.0.1:4173"
+        ),
+        description="Comma-separated list of origins allowed by CORS middleware",
+    )
+
     # Database & Storage
     DATABASE_URL: str = Field(
         default="postgresql+asyncpg://docusage:docusage_secret@localhost:5432/docusage_db",
@@ -80,6 +93,11 @@ class Settings(BaseSettings):
         ),
     )
     TOP_K_CHUNKS: int = 5
+
+    @property
+    def cors_origins(self) -> list[str]:
+        """Parsed CORS allowlist from the comma-separated CORS_ORIGINS setting."""
+        return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
 
     # Confidence Heuristic Bands (documented as a heuristic, NOT a calibrated probability)
     CONFIDENCE_HIGH_THRESHOLD: float = Field(

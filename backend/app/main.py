@@ -41,10 +41,13 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # CORS configuration for React frontend
+    # CORS configuration for React frontend.
+    # Explicit env-driven allowlist (settings.cors_origins): the deployed Vercel
+    # origin plus localhost dev servers. A wildcard "*" is invalid with
+    # allow_credentials=True, so allowed origins are enumerated instead.
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
+        allow_origins=settings.cors_origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
